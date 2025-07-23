@@ -72,7 +72,7 @@ function ChatRoom() {
 
   const [formValue, setFormValue] = useState('');
 
-  const bannedWords = ["badword1", "badword2", "anotherbadword"]; // Customize this list
+  const bannedWords = ["shit", "fuck", "meow", "woem"]; // Customize this list
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -86,6 +86,8 @@ function ChatRoom() {
     }
     // Replace each banned word with "***"
     bannedWords.forEach((word) => {
+      // g = global, i = case-insensitive
+      // \b = word boundary to ensure we only match whole words
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
       cleanedText = cleanedText.replace(regex, "***");
     });
