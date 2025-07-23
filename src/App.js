@@ -36,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>SupaChat</h1>
+        <h1>Chat</h1>
         <SignOut />
         <p>Chat with Friend(s)!</p>
       </header>
