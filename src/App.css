@@ -109,27 +109,14 @@ button:active:not(:disabled) {
   transition: transform 0.1s ease;
 }
 
-
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-
 .sign-in {
-  color: #282c34;
-  background: white;
-  max-width: 50%;
-  margin: 0 auto;
-}
-
-.sign-out {
-  background: none;
-  border: none;
-  color: white;
-  padding: 8px;
-  font-weight: bold;
-  cursor: pointer;
+  width: 40%;
+  align-self: center;
 }
 
 ul, li {

@@ -1,5 +1,5 @@
 import './App.css';
-import React, { use } from 'react';
+import React from 'react';
 
 // firebase SDK
 import firebase from 'firebase/compat/app'; 
@@ -9,8 +9,8 @@ import 'firebase/compat/auth';
 // hooks
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { SignInMethod } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 
 // Your web app's Firebase configuration
 firebase.initializeApp({
@@ -53,7 +53,7 @@ function SignIn() {
     auth.signInWithPopup(provider);
   }
   return (
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
+    <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
   )
 }
 
@@ -64,7 +64,7 @@ function SignOut() {
 }
 
 function ChatRoom() {
-  const dummy = React.useRef(); // to scroll to the bottom of the chat
+  const dummy = useRef(); // to scroll to the bottom of the chat
   const messagesRef = firestore.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(100);
   // listens to updates
@@ -73,6 +73,14 @@ function ChatRoom() {
   const [formValue, setFormValue] = useState('');
 
   const bannedWords = ["shit", "fuck", "meow", "woem"]; // Customize this list
+
+
+  useEffect(() => {
+    if (dummy.current) {
+      dummy.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]); // runs every time messages change
+
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -131,7 +139,7 @@ function ChatMessage(props) {
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL}></img>
+      <img src={photoURL} alt="User" ></img>
       <p>{text}</p>
     </div>
   )
