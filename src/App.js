@@ -36,9 +36,9 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>SuperChat</h1>
+        <h1>SupaChat</h1>
         <SignOut />
-        <p>Chat with friends!</p>
+        <p>Chat with Friend(s)!</p>
       </header>
       <section >
         {user ? <ChatRoom /> : <SignIn />}
@@ -52,7 +52,6 @@ function SignIn() {
     const provider =  new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
   }
-
   return (
     <button onClick={signInWithGoogle}>Sign in with Google</button>
   )
