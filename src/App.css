@@ -107,6 +107,14 @@ button:disabled {
   margin: 0 auto;
 }
 
+.sign-out {
+  background: none;
+  border: none;
+  color: white;
+  padding: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 
 

@@ -36,7 +36,9 @@ function App() {
   return (
     <div className="App">
       <header>
-
+        <h1>SuperChat</h1>
+        <SignOut />
+        <p>Chat with friends!</p>
       </header>
       <section >
         {user ? <ChatRoom /> : <SignIn />}
@@ -71,31 +73,30 @@ function ChatRoom() {
 
   const [formValue, setFormValue] = useState('');
 
+  const bannedWords = ["badword1", "badword2", "anotherbadword"]; // Customize this list
+
   const sendMessage = async (e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
 
-    // Call moderation API
-    const res = await fetch("/api/moderate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: formValue, uid }),
+    // Censor bad words (case-insensitive, word boundaries)
+    let cleanedText = formValue.trim();
+    if (cleanedText.length === 0) {
+      alert("Please enter a message");
+      return;
+    }
+    // Replace each banned word with "***"
+    bannedWords.forEach((word) => {
+      const regex = new RegExp(`\\b${word}\\b`, 'gi');
+      cleanedText = cleanedText.replace(regex, "***");
     });
 
-    const result = await res.json();
-    const textToSend = result.moderated ? result.cleaned : formValue;
-
     await messagesRef.add({
-      text: textToSend,
+      text: cleanedText,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
     });
-
-    // Optional: Ban collection
-    if (result.ban) {
-      await firestore.collection("banned").doc(uid).set({});
-    }
 
     setFormValue("");
     dummy.current.scrollIntoView({ behavior: "smooth" });
